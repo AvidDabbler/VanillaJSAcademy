@@ -46,7 +46,7 @@
 
 		<div>
 			<label for="show-password">
-				<input type="checkbox" name="show-password" id="show-password" class="password-checkbox">
+				<input type="checkbox" name="show-password" id="show-password" data-pw-toggle='#login-password'>
 				Show password
 			</label>
 		</div>
@@ -73,7 +73,7 @@
 
 		<div>
 			<label for="show-passwords">
-				<input type="checkbox" name="show-passwords" id="show-reset" class="password-checkbox">
+				<input type="checkbox" name="show-passwords" id="show-reset" data-pw-toggle="#new-password, #current-password">
 				Show passwords
 			</label>
 		</div>
@@ -89,31 +89,25 @@
 				Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 			}
         //HOSTED VARIABLES
-        const loginPass = Array.prototype.slice.call(document.querySelectorAll('#login-password'));
-        const resetPass = Array.prototype.slice.call(document.querySelectorAll('.password-reset'));
-        const showLogin = document.querySelector('#show-password');
-        const showReset = document.querySelector('#show-reset');
-        const sp = document.querySelectorAll('.password-checkbox');
+
+        const sp = document.querySelectorAll('[data-pw-toggle]');
 
         //SHOW PASSWORD STANDARD CALLBACK (USES PASSWORD AND ASSIGNED CHECKBOX AS VARIABLES)
-        const showPass = (pass, cb) =>{
-            pass.forEach(field => {
-                if(field && cb.checked){
+
+
+        //EVENT LISTENER FOR CLICKS
+        document.addEventListener('click', eve =>{
+			if(!event.target.matches('[data-pw-toggle]')) return;
+
+			let passwords = Array.prototype.slice.call(document.querySelectorAll(event.target.getAttribute('data-pw-toggle')));
+
+			passwords.forEach((field) => {
+				if(event.target.checked){
                     field.type = 'text';
                 }else{
                     field.type = 'password';
                 }    
-            });
-        };
-
-        //EVENT LISTENER FOR CLICKS
-        window.addEventListener('click', eve =>{
-            if(eve.target.matches('#show-password')){
-                showPass(loginPass, showLogin);
-                }
-            else if(eve.target.matches('#show-reset')){
-                showPass(resetPass, showReset);
-            }
+			})
         })
 
         //UNCHECK ALL CHECKBOXES IN '.PASSWORD-CHECKBOX' ON PAGE LOAD
