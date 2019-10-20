@@ -84,6 +84,10 @@
 	</form>
 
 	<script>
+        //IE9 SUPPORT FOR ELEMENT.PROTOTYPE.MATCHES
+        if (!Element.prototype.matches) {
+				Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+			}
         //HOSTED VARIABLES
         const loginPass = Array.prototype.slice.call(document.querySelectorAll('#login-password'));
         const resetPass = Array.prototype.slice.call(document.querySelectorAll('.password-reset'));
