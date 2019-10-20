@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Event Bubbling</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<p>
+			<button class="click-me" id="click-me-1">Click Me</button>
+			<button class="click-me" id="click-me-2">Click Me, Too</button>
+			<button class="click-me" id="click-me-3">Don't You Forget About Me</button>
+			<button class="dont-click-me" id="dont-click-me">Clicking Me Does Nothing</button>
+		</p>
+
+
+		<script>
+			/**
+			 * Element.matches() polyfill (simple version)
+			 * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
+			 */
+			if (!Element.prototype.matches) {
+				Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+			}
+
+
+			/**
+			 * This won't work!
+			 */
+			// var btns = document.querySelectorAll('.click-me');
+			// btns.addEventListener('click', function (event) {
+			// 	console.log(event); // The event details
+			// 	console.log(event.target); // The clicked element
+			// }, false);
+
+
+			/**
+			 * This works, but it's bad for performance
+			 * DON'T DO IT!
+			 */
+			// var btns2 = Array.prototype.slice.call(document.querySelectorAll('.click-me'));
+			// btns2.forEach(function (btn) {
+			// 	btn.addEventListener('click', function (event) {
+			// 		console.log(event); // The event details
+			// 		console.log(event.target); // The clicked element
+			// 	}, false);
+			// });
+
+
+			/**
+			 * A better approach: Event Delegation
+			 * Listen for clicks on the entire window
+			 */
+			window.addEventListener('click', function (event) {
+
+				// If the clicked element has the `.click-me` class, it's a match!
+				if (event.target.matches('.click-me')) {
+					console.log('A button as clicked.');
+				} 
+			}, false);
+		</script>
+	</body>
+</html>
