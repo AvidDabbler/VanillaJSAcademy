@@ -32,21 +32,18 @@
 
 	<script>
         //REUSABLE BASE CHARACTER COUNT FUNCTION
-        const charCount = (textID, countID)=>{
-            let count = document.querySelector(textID).value.length;
-            document.querySelector(countID).textContent = count
-        }
+        let text = document.querySelector('#text');
+		let charCount = document.querySelector('#character-count');
 
         //INPUT EVENT LISTENER
         text.addEventListener('input', eve =>{
-            charCount('#text', '#character-count');
-        });
+			charCount.textContent = text.value.length;
+        }, false);
 
         //ONLOAD EVENT LISTENER
-        window.onload= ()=>{
+        text.onload= ()=>{
             charCount('#text', '#character-count');
-        };
-
+        }
 	</script>
 </body>
 </html>
