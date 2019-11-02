@@ -9,25 +9,29 @@ import {key} from './config.js'
                 if(response.ok){
                     return response.json();
                 }else{
-                    return Promise.reject.response;
+                    return Promise.reject(response);
                 }                  
             }).then(data => {
-                app.innerHTML = "<ul>" + data.results.map(d=>{
-                    // if(d.multimedia[2].url !=undefined){
-                    //     const pic ="<img src" + d.multimedia[2].url + "alt=" + d.multimedia[2].url + ">";
-                    // }
-                    const link = "<a href='" + d.url+ "'>" + d.title + "</a>"
+                console.log(data.results);
+                const html = data.results.map(d=>{
+                    const link = "<a href='" + d.url+ "'><h2>" + d.title + "</h2></a>"
                     if(d.multimedia.length > 1){
-                        const pic = d.multimedia[1].url;
+                        const pic = d.multimedia[2].url;
                         return(
-                            "<li><img src='" + pic + "' >" + link
+                            "<div class='container' id='" + d.url + "'><div class='about'><div class='pic'><img src='" 
+                            + pic +
+                            "' ></div><div class='headline'>" + link + "<h3>" 
+                            + d.byline + "</h3><p>" + d.abstract + "</p></div></div></div>"
                         );
                     }
                     return(
-                        "<li>" + link + "</li>"
+                        "<div class='container' id='" + d.url + "'><h2>"
+                        + link + "</h2><h3>" + d.byline + "</h3><p>" + d.abstract + "</p></div></div>"
+
                         );
-                    }).join('')
-                    + "</ul>";
+                    }).join('');
+                    app.innerHTML = html;
+                    return html;
             }).catch(err => {
                 console.log("Error logged: ", err);
             });
