@@ -15,6 +15,7 @@ var monsters = [
     'sock'
 ];
 
+let shuffleMonsters;
 
 var shuffle = function (array) {
 
@@ -37,12 +38,24 @@ var shuffle = function (array) {
 
 };
 
+const init= ()=>{
+    shuffleMonsters = shuffle(monsters.slice());
 
-const shuffleMonsters = shuffle(monsters.slice());
-console.log(monsters);
-console.log(shuffleMonsters);
+    app.innerHTML = "<div class='row'>" + shuffleMonsters.map((monster, index) =>{
+        const html = "<div class='grid door'><img id='" + index + "' alt='Click to find all the monsters' src='door.svg'></div>";
+        return html;
+    }).join('') + '</div>';
+}
 
-shuffleMonsters.forEach(el => {
-    app.innerHTML += "<img src='" + el + ".svg'>";
-    console.log('section');
-});
+
+app.addEventListener('click', el =>{
+    const id = el.explicitOriginalTarget.id;
+    if (shuffleMonsters[id] == 'sock'){
+        alert('You lost the game');
+        init();
+    }else{
+        document.getElementById(id).src = shuffleMonsters[id] + '.svg';
+    }
+})
+
+init();
