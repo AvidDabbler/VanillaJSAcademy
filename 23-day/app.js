@@ -42,20 +42,32 @@ const init= ()=>{
     shuffleMonsters = shuffle(monsters.slice());
 
     app.innerHTML = "<div class='row'>" + shuffleMonsters.map((monster, index) =>{
-        const html = "<div class='grid door'><img id='" + index + "' alt='Click to find all the monsters' src='door.svg'></div>";
+        const html = "<div class='grid door'>"
+            + "<button data-monster-id ='" + index + "'>"
+                + "<img id='" + index + "' alt='Click to find all the monsters' src='door.svg'></button></div>";
         return html;
     }).join('') + '</div>';
 }
 
 
-app.addEventListener('click', el =>{
-    const id = el.explicitOriginalTarget.id;
+
+init();
+
+const clickDoor = el =>{
+    const monster = el.target.closest('[data-monster-id]');
+
+    if(!monster){
+        return;
+    }
+    const id = monster.getAttribute('data-monster-id');
     if (shuffleMonsters[id] == 'sock'){
         alert('You lost the game');
         init();
     }else{
-        document.getElementById(id).src = shuffleMonsters[id] + '.svg';
+        monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>"
     }
-})
+};
 
-init();
+
+app.addEventListener('click', clickDoor, false)
+
