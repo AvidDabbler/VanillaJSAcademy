@@ -73,10 +73,9 @@ const clickDoor = el =>{
         init();
         standing.lose++;
         score.innerHTML = "<h3 class ='full' id = 'score'> Win: " + standing.win + " | Lose: " + standing.lose + "</h3>"; 
-    }else if(standing.correct < 10){
+    }else if(standing.correct < (monsters.length-2)){
         monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";
         standing.correct++;
-        console.log(standing);
     }else{
         alert('you won the game');
         standing.win++;
