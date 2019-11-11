@@ -62,24 +62,25 @@ const init= ()=>{
 
 const clickDoor = el =>{
     const monster = el.target.closest('[data-monster-id]');
-
+    const updateScore = ()=>{score.innerHTML = " Win: " + standing.win + " | Lose: " + standing.lose; };
+    const reveal = ()=>{monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";};
     if(!monster){
         return;
     }
     const id = monster.getAttribute('data-monster-id');
     if (shuffleMonsters[id] == 'sock'){
-        monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";
+        reveal();
         alert('You lost the game');
         init();
         standing.lose++;
-        score.innerHTML = "<h3 class ='full' id = 'score'> Win: " + standing.win + " | Lose: " + standing.lose + "</h3>"; 
+        updateScore();
     }else if(standing.correct < (monsters.length-2)){
-        monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";
+        reveal();
         standing.correct++;
     }else{
         alert('you won the game');
         standing.win++;
-        score.innerHTML = "<h3 class ='full' id = 'score'> Win: " + standing.win + " | Lose: " + standing.lose + "</h3>"; 
+        updateScore();
         init();
     }
 };
