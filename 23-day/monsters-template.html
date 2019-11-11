@@ -31,9 +31,21 @@
 			height: auto;
 			max-width: 100%;
 		}
-		button{
+		.monster-button{
 			border: none;
 			background-color: transparent;
+		}
+
+		.full{
+			width: 100%;
+			margin:auto;
+			text-align: center;
+		}
+		#reset{
+			border: none;
+			background-color: grey;
+			color: white;
+			padding: 30 510px 
 		}
 	</style>
 </head>
@@ -41,7 +53,20 @@
 
 	<h1>Monsters!</h1>
 
+	<div class='center'>
+		<h1 class='full'>Score</h1>
+		<div>
+				<h3 class='full' id='score'>Win: 0 | Lose: 0</h3>
+		</div>
+	
+	</div>
+
 	<div id="app"></div>
+
+	<div class="full">
+		<button  id='reset'><h2>Reset</h2></button>
+	</div>
+
 
 	<footer>
 		<hr>
