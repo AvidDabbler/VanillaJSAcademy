@@ -5,12 +5,11 @@ const data = nodeData.map((section, index) =>{
     return{
         id: section.id,
         name: section.textContent
-        }
+        };
     });
 
-console.log(data);
 
 contentList.innerHTML = "<ul>" +
     data.map((sect, index) =>{
-        return '<li><button><a href="#' + sect.id + '">' + sect.name + '</a></li>'
+        return '<input class="content-links f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black"" type="button" onclick="location.href=`#' + sect.id + '`;" value="' + sect.name + '"/>'
     }).join('') + "</ul>"
