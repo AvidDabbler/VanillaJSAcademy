@@ -2,12 +2,21 @@ const nodeData = Array.prototype.slice.call(document.querySelectorAll(('h2')));
 const contentList = document.querySelector('#table-of-contents');
 
 const data = nodeData.map((section, index) =>{
-    return{
-        id: section.id,
-        name: section.textContent
-        };
+    if(section.id.length < 1){
+        section.id = section.textContent.split(' ').join('-');
+        return{
+            id: section.id,
+            name: section.textContent
+        }
+    }else{
+        return{
+            id: section.id,
+            name: section.textContent
+            };
+    }
+    
     });
-
+console.log(data);
 
 contentList.innerHTML = "<ul>" +
     data.map((sect, index) =>{

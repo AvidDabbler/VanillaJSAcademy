@@ -88,3 +88,6 @@ const clickDoor = el =>{
 reset.addEventListener('click', init, false);
 app.addEventListener('click', clickDoor, false);
 init();
+
+
+console.log(app)
