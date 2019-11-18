@@ -3,8 +3,12 @@ body {
     max-width: 30em;
     width: 88%;
 }
-.temp{
+#app, #icon, #temp{
     display: flex;
     margin: auto;
     justify-content: center;
+    text-align: center;
+}
+#zip{
+    display: inline;
 }
