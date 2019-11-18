@@ -2,7 +2,7 @@ import {key} from './config.js'
 
 const weather = (d) =>{
     const div = document.getElementById('app');
-    div.innerHTML = '<h1>Temperature: ' + d.temp + '<img src="' + d.icon + '" alt="' + d.desc +'"></h1>' 
+    div.innerHTML = '<h1 class="temp">Temperature: ' + d.temp + '<img src="' + d.icon + '" alt="' + d.desc +'"></h1>' 
 
 
 }
@@ -30,7 +30,7 @@ const gps = new Promise (()=>{
         .then(data =>{
             console.log(data)
             return{
-                temp: (data.data[0].temp * 9 / 5) + 32,
+                temp: parseInt((data.data[0].temp * 9 / 5) + 32),
                 icon: "https://www.weatherbit.io/static/img/icons/" + data.data[0].weather.icon + ".png",
                 desc: data.data[0].weather.description
 
