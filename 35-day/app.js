@@ -28,7 +28,6 @@ const gps = new Promise (()=>{
             }
         })
         .then(data =>{
-            console.log(data)
             return{
                 temp: parseInt((data.data[0].temp * 9 / 5) + 32),
                 icon: "https://www.weatherbit.io/static/img/icons/" + data.data[0].weather.icon + ".png",
