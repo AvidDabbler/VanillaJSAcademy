@@ -21,7 +21,6 @@
                 if(section.id.length < 1){
                     section.id = section.textContent.replace(/[^a-z0-9]+/gi, '-');
                 }
-                console.log(section.textContent);
                 return '<input class="content-links f6 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black"" type="button" onclick="location.href=`#' 
                     + section.id + '`;" value="' + section.textContent + '"/>'
             }).join('') + "</ul>";
