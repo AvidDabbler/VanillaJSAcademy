@@ -9,6 +9,10 @@ var walter = (function () {
 
     // * Item #1: Convert a nodelist to an array
     methods.nodeArr = (selector) => {
+        if(!selector){
+            console.warn(selector + ' does not exist with in the page');
+            return;
+        }
         const arr = Array.prototype.slice.call(document.querySelectorAll(selector));
         return arr;
     };
