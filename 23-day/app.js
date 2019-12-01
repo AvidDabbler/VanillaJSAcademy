@@ -62,8 +62,12 @@ const init= ()=>{
 
 const clickDoor = el =>{
     const monster = el.target.closest('[data-monster-id]');
-    const updateScore = ()=>{score.innerHTML = " Win: " + standing.win + " | Lose: " + standing.lose; };
-    const reveal = ()=>{monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";};
+    const updateScore = ()=>{
+        score.innerHTML = " Win: " + standing.win + " | Lose: " + standing.lose; 
+    };
+    const reveal = ()=>{
+        monster.parentNode.innerHTML = "<img alt='" + shuffleMonsters[id] + "' src='" + shuffleMonsters[id] +".svg'>";
+    };
     if(!monster){
         return;
     }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form Autosave</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+
+		label,
+		input,
+		textarea {
+			display: block;
+			width: 100%;
+		}
+
+		input,
+		textarea {
+			margin-bottom: 1em;
+		}
+
+		textarea {
+			height: 8em;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Form Autosave</h1>
+
+	<form class="save-me" id="save-me">
+
+		<label for="name">Name</label>
+		<input class='save' type="text" name="name" id="name">
+
+		<label for="address">Address</label>
+		<input class='save' type="text" name="address" id="address">
+
+		<label for="email">Email</label>
+		<input class='save' type="email" name="email" id="email">
+
+		<label id="more">Additional thoughts?</label>
+		<textarea class='save' name="more" id="more"></textarea>
+
+		<p>
+			<button id='submit' type="submit">Submit</button>
+			<button id='clear' type="clear">Clear</button>
+		</p>
+
+	</form>
+
+	<script>
+		let nodelist = Array.prototype.slice.call(document.querySelectorAll('.save'));
+
+		const getId = (field) => {
+			if(field.id.length > 0){
+				return field.id;
+			}else if(field.name.length > 0){
+				return field.name;
+			}
+			return null;
+		};
+
+		const saveData = () =>{
+			let id = getId(event.target);
+			if(!id) {
+				return;
+			}
+			nodelist.map(item => {
+				localStorage.setItem(item.id, item.value);
+				console.log('localStorage map');
+			})
+		};
+
+		const clearData = (event) =>{
+			if(!event.target.closest('#clear')){
+				console.log('not clear');
+				return;
+			};
+			nodelist.forEach(el => {
+				localStorage.removeItem(el.id);
+				el.value = '';
+			});
+		}
+
+
+		document.addEventListener('input', saveData, false);
+
+		document.addEventListener('click', clearData, false);
+		const init = () =>{
+			nodelist.forEach(el => {
+				el.value = localStorage.getItem(el.id)
+			});
+		};
+		init();
+	</script>
+</body>
+</html>
