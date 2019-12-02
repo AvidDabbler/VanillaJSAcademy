@@ -15,17 +15,36 @@
         };
         
 
+        var addToLocalStorageObject = function (name, key, value) {
+
+            // Get the existing data
+            var existing = localStorage.getItem(name);
+        
+            // If no existing data, create an array
+            // Otherwise, convert the localStorage string to an array
+            existing = existing ? JSON.parse(existing) : {};
+        
+            // Add new data to localStorage Array
+            existing[key] = value;
+        
+            // Save back to localStorage
+            localStorage.setItem(name, JSON.stringify(existing));
+        
+        };
+
 
 		const saveData = () =>{
             let id = getId(event.target);
             if(!event.target.closest('#save-me')) return;
-			if(!id) {
-				return;
-            }
-			nodelist.map(item => {
-				localStorage.setItem("localstorage_item_" + item.id, item.value);
-				console.log('localStorage map');
-			})
+			if(!id) return;
+            
+            // nodelist.map(item => {
+			// 	localStorage.setItem("localstorage_item_" + item.id, item.value);
+			// 	console.log('localStorage map');
+            // })
+            nodelist.map(item => {
+                addToLocalStorageObject('data', item.id, item.value);
+            });                
 		};
 
 		const clearData = (event) =>{
