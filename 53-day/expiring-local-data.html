@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hellow</h1>
+    <script>
+        const data = {
+            data:{
+                sandwich: 'turkey',
+                fruit: 'apple',
+                veggie: 'carrots'
+            },
+            timestamp: new Date().getTime()
+        };
+
+        localStorage.setItem('data', JSON.stringify(data));
+
+        const compareDate = (data, givenTime) => {
+            if(!data || !data.data || !data.timestamp) return;
+            let difference = new Date().getDate() - data.timestamp;
+            
+            return difference < givenTime;
+        };
+
+        const saved = JSON.parse(localStorage.getItem('data'));
+
+        const check = ()=> {
+            if(compareDate(saved, 2000)){
+                console.log('still good');
+            }else{
+                console.log('exprired');
+            }
+        };
+        check();
+
+    </script>
+</body>
+</html>
