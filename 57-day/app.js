@@ -29,25 +29,28 @@ const timerFunction = () => {
         if(count.timer < 0){
             window.clearInterval(timerGo);
             //CHANGE
-            return app.innerHTML = '<h2>Timer Done!!!</h2>'
+            console.log('<h2>Timer Done!!!</h2>')
+            return '<h2>Timer Done!!!</h2>'
         }
         //CHANGE
-        return app.innerHTML =  '<h2>' + count.timer + '</h2>';
+        console.log('<h2>' + count.timer + '</h2>');
+        return '<h2>' + count.timer + '</h2>';
 
     }, 10);
 };
 
 const restartTimer = (event) => {
+
     if(!event.target.closest('#restart')) return;
     timerFunction();
 };
 
 
-// var render = function () {
-// 	if (!app) return;
-// 	app.innerHTML = timerFunction();
-// };
+var render = function () {
+	if (!app) return;
+	app.innerHTML = timerFunction();
+};
 
-// render();
+render();
 
 window.addEventListener('click', restartTimer, false)
