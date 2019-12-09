@@ -48,16 +48,25 @@
                 
         };
 
+        var getEndpoint = function () {
+            var endpoint = 'https://vanillajsacademy.com/api/';
+            var random = Math.random();
+            if (random < 0.5) return endpoint + 'pirates.json';
+            return endpoint + 'fail.json';
+        };
+
+
         const dataStorage = () => {
             const saved = JSON.parse(localStorage.getItem('data'));
-            
+            const url = getEndpoint();
+            console.log(url);
             if(checkData(saved, 1000)){
                 buildSite(saved)
             }else{
-                fetch('https://vanillajsacademy.com/api/pirates.json')
+                fetch(url)
                 .then(data => {
                     if(data.ok){
-                        return data.json();
+                        return data.json();   
                     }else{
                         return Promise.reject(data);
                     }
@@ -66,8 +75,14 @@
                     data.timestamp = new Date().getTime();
                     localStorage.setItem('data', JSON.stringify(data));
                     return JSON.parse(localStorage.getItem('data'));
-                }).then(data => {
+                })
+                .then(data => {
                     buildSite(data);
+                })
+                .catch(()=>{
+                    if(saved){
+                        buildSite(saved);
+                    }
                 })
             };
         };
