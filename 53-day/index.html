@@ -21,23 +21,63 @@
 	</div>
 
 	<script>
+        const app = document.getElementById('app');
+
+        var sanitizeHTML = function (str) {
+			var temp = document.createElement('div');
+			temp.textContent = str;
+			return temp.innerHTML;
+		};
+
+        var checkData = function (saved, givenTime) {
+            if(!saved || !saved.timestamp) return false;
+            var difference = new Date().getTime() - saved.timestamp;
+            
+            return difference < givenTime;
+        };
+
+        const buildSite = (data) => {
+            if(!data || !data.articles || !data.attribution.url) return;
+            app.innerHTML = 
+                data.articles.map(ob => {
+                    const html ='<article><h2>' + sanitizeHTML(ob.title) + '</h2>' +
+                        '<h3>' + sanitizeHTML(ob.author) + '</h3>' +
+                        '<p>' + sanitizeHTML(ob.article) + '</p>';
+                    return html;
+                }).join('') + '<p> SOURCE : ' + sanitizeHTML(data.attribution.url) + '</p>';
+                
+        };
+
         const dataStorage = () => {
             fetch('https://vanillajsacademy.com/api/pirates.json')
             .then(data => {
-                
+                if(data.ok){
+                    return data.json();
+                }else{
+                    return Promise.reject(data);
+                }
             })
             .then(data => {
-                console.log(data);
-                console.log(`API Data: ${data}`);
+                data.timestamp = new Date().getTime();
                 localStorage.setItem('data', JSON.stringify(data));
                 return JSON.parse(localStorage.getItem('data'));
             })
             .then(data => {
-                console.log(`Local Data: ${data}`);
+                const saved = JSON.parse(localStorage.getItem('data'));
+                console.log(saved);
+                if(checkData(saved, 50000)){
+                    buildSite(saved)
+                }else{
+                    console.log('error: data timed out');
+                };
             })
+
         };
 
         dataStorage();
+
+
+
 	</script>
 </body>
 </html>

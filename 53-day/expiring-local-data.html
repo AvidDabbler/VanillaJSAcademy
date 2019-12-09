@@ -20,7 +20,7 @@
 
         localStorage.setItem('data', JSON.stringify(data));
 
-        var stupid = function (saved, givenTime) {
+        var checkData = function (saved, givenTime) {
             if(!saved || !saved.data || !saved.timestamp) return false;
             var difference = new Date().getTime() - saved.timestamp;
             
@@ -30,7 +30,7 @@
         const saved = JSON.parse(localStorage.getItem('data'));
 
         const check = ()=> {
-            if(stupid(saved, 20)){
+            if(checkData(saved, 20)){
                 console.log('still good');
             }else{
                 console.log('exprired');
