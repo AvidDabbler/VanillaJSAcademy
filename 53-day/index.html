@@ -49,29 +49,27 @@
         };
 
         const dataStorage = () => {
-            fetch('https://vanillajsacademy.com/api/pirates.json')
-            .then(data => {
-                if(data.ok){
-                    return data.json();
-                }else{
-                    return Promise.reject(data);
-                }
-            })
-            .then(data => {
-                data.timestamp = new Date().getTime();
-                localStorage.setItem('data', JSON.stringify(data));
-                return JSON.parse(localStorage.getItem('data'));
-            })
-            .then(data => {
-                const saved = JSON.parse(localStorage.getItem('data'));
-                console.log(saved);
-                if(checkData(saved, 50000)){
-                    buildSite(saved)
-                }else{
-                    console.log('error: data timed out');
-                };
-            })
-
+            const saved = JSON.parse(localStorage.getItem('data'));
+            
+            if(checkData(saved, 1000)){
+                buildSite(saved)
+            }else{
+                fetch('https://vanillajsacademy.com/api/pirates.json')
+                .then(data => {
+                    if(data.ok){
+                        return data.json();
+                    }else{
+                        return Promise.reject(data);
+                    }
+                })
+                .then(data => {
+                    data.timestamp = new Date().getTime();
+                    localStorage.setItem('data', JSON.stringify(data));
+                    return JSON.parse(localStorage.getItem('data'));
+                }).then(data => {
+                    buildSite(data);
+                })
+            };
         };
 
         dataStorage();
