@@ -24,16 +24,13 @@ const timerFunction = () => {
     };
 
     const timerGo = window.setInterval(() => {
-
-        console.log('start of timer');
         count.timer--;
 
         if(count.timer < 0){
             window.clearInterval(timerGo);
-            app.innerHTML = '<h2>Timer Done!!!</h2>'
-        }else{
-            app.innerHTML = '<h2>' + count.timer + '</h2>';
+            return '<h2>Timer Done!!!</h2>'
         }
+        return '<h2>' + count.timer + '</h2>';
 
     }, 10);
 };
@@ -43,6 +40,12 @@ const restartTimer = (event) => {
     timerFunction();
 };
 
-timerFunction();
+
+var render = function () {
+	if (!app) return;
+	app.innerHTML = timerFunction();
+};
+
+render();
 
 window.addEventListener('click', restartTimer, false)
