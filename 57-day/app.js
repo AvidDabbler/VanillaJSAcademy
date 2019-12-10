@@ -44,6 +44,7 @@ const run = () => {
 };
 
 render();
+run();
 
 window.addEventListener('click', ()=>{
     if(count.timer > 0){
