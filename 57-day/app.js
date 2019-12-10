@@ -32,26 +32,29 @@ var render = function () {
     if (!app) return;
 	app.innerHTML = template();
 };
-const clear = ()=>{
-    count.timer = 60;
-    window.clearInterval(run);
-} 
-const run = () => {
-    const start = window.setInterval(() => {
-        count.timer === 0 ? clear : count.timer--;
+ 
+const run = ()=>{ 
+    const start =window.setInterval(() => {
+        count.timer--;
         render();
-    }, 100)
-};
+
+        if(count.timer === 0 ){
+            window.clearInterval(start);
+        }
+    }, 1000);
+}
 
 render();
-run();
+
 
 window.addEventListener('click', ()=>{
-    if(count.timer > 0){
-        clear();
-        run();
-    }else{
-        count.timer = 60;
+    if(count.timer == 60){
         run();
     }
+    else if(count.timer === 0){
+        count.timer = 60;
+        render();
+        run;
+    }
+
 }, false)
