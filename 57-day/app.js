@@ -18,39 +18,39 @@ if (!Element.prototype.matches) {
     };
   }
 
-const timerFunction = () => {
-    let count = {
-        timer: 60
-    };
 
-    const timerGo = window.setInterval(() => {
-        count.timer--;
-
-        if(count.timer < 0){
-            window.clearInterval(timerGo);
-            //CHANGE
-            console.log('<h2>Timer Done!!!</h2>')
-            return '<h2>Timer Done!!!</h2>'
-        }
-        //CHANGE
-        console.log('<h2>' + count.timer + '</h2>');
-        return '<h2>' + count.timer + '</h2>';
-
-    }, 10);
+let count = {
+    timer: 60
 };
 
-const restartTimer = (event) => {
-
-    if(!event.target.closest('#restart')) return;
-    timerFunction();
+const template = () => {
+    if(count.timer === 0 ) return '<h2>Timer\'s Done</h2>';
+    return '<h2>'+ count.timer +'</h2>'
 };
-
 
 var render = function () {
-	if (!app) return;
-	app.innerHTML = timerFunction();
+    if (!app) return;
+	app.innerHTML = template();
+};
+const clear = ()=>{
+    count.timer = 60;
+    window.clearInterval(run);
+} 
+const run = () => {
+    const start = window.setInterval(() => {
+        count.timer === 0 ? clear : count.timer--;
+        render();
+    }, 100)
 };
 
 render();
 
-window.addEventListener('click', restartTimer, false)
+window.addEventListener('click', ()=>{
+    if(count.timer > 0){
+        clear();
+        run();
+    }else{
+        count.timer = 60;
+        run();
+    }
+}, false)
