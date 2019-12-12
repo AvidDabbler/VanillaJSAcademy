@@ -18,14 +18,16 @@ if (!Element.prototype.matches) {
     };
   }
 
+const duration = 60
 
 let count = {
-    timer: 60
+    timer: 60,
+    done: false
 };
 
 const template = () => {
-    if(count.timer === 0 ) return '<h2>Timer\'s Done</h2>';
-    return '<h2>'+ count.timer +'</h2>'
+    if(count.done) return '<h2>Timer\'s Done</h2><button id="restart">Restart Timer</button>';
+    return count.timer;
 };
 
 var render = function () {
@@ -34,27 +36,29 @@ var render = function () {
 };
  
 const run = ()=>{ 
+    count.timer = duration;
+    count.done = false;
+
     const start =window.setInterval(() => {
-        count.timer--;
+        let time = count.timer - 1;
+        let done = time === 0 ? true : false;
+
+        count.timer = time;
+        count.done = done
+
         render();
 
-        if(count.timer === 0 ){
+        if(done){
             window.clearInterval(start);
         }
-    }, 1000);
+    }, 10);
 }
 
-render();
+run();
 
 
 window.addEventListener('click', ()=>{
-    if(count.timer == 60){
-        run();
-    }
-    else if(count.timer === 0){
-        count.timer = 60;
-        render();
-        run;
-    }
+    if(!document.getElementById('restart')) return;
+    run();
 
 }, false)
