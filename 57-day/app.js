@@ -18,7 +18,7 @@ if (!Element.prototype.matches) {
     };
   }
 
-const duration = 60
+const duration = 120
 
 let count = {
     timer: 60,
@@ -27,7 +27,10 @@ let count = {
 
 const template = () => {
     if(count.done) return '<h2>Timer\'s Done</h2><button id="restart">Restart Timer</button>';
-    return count.timer;
+    let min = Math.floor(count.timer / 60).toString().padStart(1,0);
+    let sec = (count.timer - (min * 60)).toString().padStart(2,0);
+    console.log(sec)
+    return min + ':' + sec;
 };
 
 var render = function () {
@@ -44,14 +47,14 @@ const run = ()=>{
         let done = time === 0 ? true : false;
 
         count.timer = time;
-        count.done = done
+        count.done = done;
 
         render();
 
         if(done){
             window.clearInterval(start);
         }
-    }, 10);
+    }, 100);
 }
 
 run();
