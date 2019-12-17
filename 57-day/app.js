@@ -2,8 +2,6 @@ const app = document.getElementById('app');
 
 const duration = 120
 
-
-
 let count = {
     timer: duration,
     done: false,
@@ -11,18 +9,13 @@ let count = {
     button: 'pause'
 };
 
-var setData = function (obj) {
-
-	// Update the data object
+const setData = function (obj) {
 	for (var key in obj) {
 		if (obj.hasOwnProperty(key)) {
 			count[key] = obj[key];
 		}
 	}
-
-	// Render a new UI
 	render();
-
 };
 
 let button = () => document.getElementById('button').innerHTML = '<button class="button" id="' + count.button +'">' + count.button +'</button>'
@@ -33,7 +26,6 @@ const template = () => {
     let sec = (count.timer % 60).toString().padStart(2,0);
     let clock = '<h2>' + min + ':' + sec + '</h2>';
 
-    if(count.pause) return clock;
     return clock;
 };
 
