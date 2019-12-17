@@ -2,11 +2,27 @@ const app = document.getElementById('app');
 
 const duration = 120
 
+
+
 let count = {
     timer: duration,
     done: false,
     pause: false,
     button: 'pause'
+};
+
+var setData = function (obj) {
+
+	// Update the data object
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key)) {
+			count[key] = obj[key];
+		}
+	}
+
+	// Render a new UI
+	render();
+
 };
 
 let button = () => document.getElementById('button').innerHTML = '<button class="button" id="' + count.button +'">' + count.button +'</button>'
@@ -27,38 +43,43 @@ var render = function () {
 };
  
 const run = ()=>{ 
-    count.button = 'pause';
-    count.done = false;
-    count.pause = false;
+    setData({
+        button: 'pause',
+        done: false,
+        pause: false
+    });
 
     const start =window.setInterval(() => {
         let time = count.timer - 1;
         let done = time === 0 ? true : false;
 
-        count.timer = time;
-        count.done = done;
 
-        render();
+        setData({
+            timer: time,
+            done: done
+        });
+
 
         if(done || count.pause){
             window.clearInterval(start);
         }
         if(done){
-            count.button = 'restart';
-            render();
+            setData({button: 'restart'});
             button();
         }
     }, 1000);
 };
 
 const restart = () => {
-    count.timer = duration
+    setData({timer: duration});
     run();
 };
 
 const pause = () => {
-    count.pause = true;
-    count.button = 'start';
+    setData({
+        pause: true,
+        button: 'start'
+    });
 }
 
 run();
