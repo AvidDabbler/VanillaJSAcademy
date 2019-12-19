@@ -1,6 +1,6 @@
 const app = document.getElementById('app');
 
-const duration = 120
+const duration = 120;
 
 let count = {
     timer: duration,
@@ -45,12 +45,10 @@ const run = ()=>{
         let time = count.timer - 1;
         let done = time === 0 ? true : false;
 
-
         setData({
             timer: time,
             done: done
         });
-
 
         if(done || count.pause){
             window.clearInterval(start);
@@ -84,7 +82,7 @@ const close = (id) => {
 window.addEventListener('click', ()=>{
     if(!document.querySelector('.button')) return;
     else if(event.target.closest('#restart')){
-         restart();
+        restart();
     }
     else if(event.target.closest('#pause')){
         pause();
