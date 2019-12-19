@@ -11,10 +11,9 @@ var app = new Reef('#app', {
         
         return '<ul class="todos">' + props.todos.map((el, i) => {
             let item = 
-                "<li" + (el.completed ? 'class="todo-completed' : '') + ">" +
-                    "<label for='todo-" + i + ">" + 
-                        `<input id="todo-` + i +`" type="checkbox"` + (el.completed ? 'checked' : '') + `>` + el.item +
-                `</label>`;
+                '<label for="todo-' + i + '">' + 
+                        '<input id="todo-' + i + '" type="checkbox">' + el +
+                '</label>';
             return item;
     }).join('') + `</ul>`;
   }
@@ -24,6 +23,7 @@ const list = app.data.todos;
 const val = todo.value;
 
 const addData = () => {
+    console.log(todo.value);
     event.preventDefault();
     if(!todo) {
         console.log('not todo')
@@ -34,17 +34,19 @@ const addData = () => {
         return;
     }
 
-    let dupCheck = (el) => el === val;
+    let dupCheck = (el) => el == todo.value;
     
     if(list.some(dupCheck)){
         console.log('duplicate item')
         return;
+    }else{
+        list.push(todo.value);
+        todo.value = '';
+        todo.focus();
     }
 
-    list.push(todo.value);
-    todo.value = '';
-    todo.focus();
     app.render();
+
 }
 
 app.render()
