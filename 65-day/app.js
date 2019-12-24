@@ -1,4 +1,5 @@
 const todo = document.getElementById('new-todo');
+let d;
 
 var app = new Reef('#app', {
     data: {
@@ -13,18 +14,23 @@ var app = new Reef('#app', {
             let item = 
                 '<label for="todo-' + i + '">' + 
                         '<input id="todo-' + i + '" type="checkbox">' + el +
-                '</label>';
+                        '<button class="delete" data-id ="' + i + '">Delete</button>'
+                    '</label>';
             return item;
     }).join('') + `</ul>`;
   }
 });
 
+
 const list = app.data.todos;
 const val = todo.value;
+const save = () => localStorage.setItem('data', JSON.stringify(list));
+
 
 const addData = () => {
-    console.log(todo.value);
+    d = Array.prototype.slice.call(document.querySelectorAll('.delete'));
     event.preventDefault();
+
     if(!todo) {
         console.log('not todo')
         return;
@@ -44,11 +50,27 @@ const addData = () => {
         todo.value = '';
         todo.focus();
     }
+    d = Array.prototype.slice.call(document.querySelectorAll('.delete'));
 
     app.render();
+    save();
 
+}
+
+const deleteItem = (event) => {
+    if(!event.target.closest('.delete'))return;
+    let delete_id = event.target.dataset.id;
+
+    list.splice(delete_id, 1);
+    app.render();
+    save();
+
+}
+if(localStorage.getItem('data').length) {
+    app.data.todos = JSON.parse(localStorage.getItem('data'));
 }
 
 app.render()
 
 window.addEventListener("submit", addData, false)
+window.addEventListener("click", deleteItem, false)

@@ -1,5 +1,6 @@
 const app = document.getElementById('app');
 
+
 const duration = 120;
 
 let count = {
@@ -33,6 +34,7 @@ var render = function () {
     if (!app) return;
 	app.innerHTML = template();
 };
+
  
 const run = ()=>{ 
     setData({
@@ -41,7 +43,7 @@ const run = ()=>{
         pause: false
     });
 
-    const start =window.setInterval(() => {
+    const start = window.setInterval(() => {
         let time = count.timer - 1;
         let done = time === 0 ? true : false;
 
