@@ -21,56 +21,58 @@ var app = new Reef('#app', {
   }
 });
 
-
-const list = app.data.todos;
 const val = todo.value;
-const save = () => localStorage.setItem('data', JSON.stringify(list));
 
+const update = () => {
+    app.data.todos = JSON.parse(localStorage.getItem('data'));  
+    console.log('update');
+    app.render();
+}
+
+const list = () => app.data.todos;
 
 const addData = () => {
     d = Array.prototype.slice.call(document.querySelectorAll('.delete'));
     event.preventDefault();
 
-    if(!todo) {
-        console.log('not todo')
-        return;
-    }
+    // BLANK ITEM CHECK
     if(!todo.value){
         console.log('No data');
         return;
     }
 
-    let dupCheck = (el) => el == todo.value;
+    let dupCheck = list().some(el => el == todo.value);
     
-    if(list.some(dupCheck)){
+    // DUPLICATE ITEM CHECK
+    if(dupCheck){
         console.log('duplicate item')
         return;
     }else{
-        list.push(todo.value);
+        app.data.todos.push(todo.value);
+        localStorage.setItem('data', JSON.stringify(list()));
         todo.value = '';
         todo.focus();
     }
-    d = Array.prototype.slice.call(document.querySelectorAll('.delete'));
-
-    app.render();
-    save();
-
+    update();
 }
 
 const deleteItem = (event) => {
     if(!event.target.closest('.delete'))return;
     let delete_id = event.target.dataset.id;
 
-    list.splice(delete_id, 1);
+    app.data.todos.splice(delete_id, 1);
+    localStorage.setItem('data', JSON.stringify(list()));
     app.render();
-    save();
+    console.log('delete')
 
 }
-if(localStorage.getItem('data').length) {
+
+const load = () => {
+    event.preventDefault();
     app.data.todos = JSON.parse(localStorage.getItem('data'));
 }
+update();
 
-app.render()
-
-window.addEventListener("submit", addData, false)
-window.addEventListener("click", deleteItem, false)
+window.addEventListener("submit", addData, false);
+window.addEventListener("click", deleteItem, false);
+window.addEventListener('load', load, false);
