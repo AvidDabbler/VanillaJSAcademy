@@ -92,6 +92,7 @@ const deleted = (event) => {
 
 const click = (event) => {
     completedTodo(event);
+    deleted(event);
 }
 
 const saveTodos = () => localStorage.setItem('data', JSON.stringify(app.getData()));
