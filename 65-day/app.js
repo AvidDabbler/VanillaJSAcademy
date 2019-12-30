@@ -1,39 +1,39 @@
 const todo = document.getElementById('new-todo');
-let d;
 
 var app = new Reef('#app', {
     data: {
         todos: []
     },
     template: (props) => {
-        if(props.todos < 1){
+        if(props.todos.length < 1){
+            console.log('nada');
             return "There is nothing in the list."
         };
         
         return '<ul class="todos">' + props.todos.map((el, i) => {
             let item = 
                 '<label for="todo-' + i + '">' + 
-                        '<input id="todo-' + i + '" type="checkbox" class="checkbox unchecked">' + el +
-                        '<button class="delete" data-id ="' + i + '">Delete</button>'
+                        '<input data-id="' + i + '" id="todo-' + i + '" type="checkbox" class="checkbox unchecked">' + el.item +
+                        '<button class="delete" delete-id ="' + i + '">Delete</button>'
                     '</label>';
             return item;
     }).join('') + `</ul>`;
   }
 });
 
-const val = todo.value;
-
-const update = () => {
-    app.data.todos = JSON.parse(localStorage.getItem('data'));  
-    console.log('update');
-    
-    app.render();
-}
-
-const list = () => app.data.todos;
-
 const addData = () => {
-    d = Array.prototype.slice.call(document.querySelectorAll('.delete'));
+    let todos = app.getData().todos;
+    let dupCheck = () =>{
+        let dup = false;
+        todos.map(obj => {
+            if(obj.item == todo.value){
+                dup = true;
+                return dup;
+            }
+        })
+        return dup;
+    };
+
     event.preventDefault();
 
     // BLANK ITEM CHECK
@@ -41,52 +41,72 @@ const addData = () => {
         console.log('No data');
         return;
     }
-
-    let dupCheck = list().some(el => el == todo.value);
     
     // DUPLICATE ITEM CHECK
-    if(dupCheck){
-        console.log('duplicate item')
+    if(dupCheck()){
         return;
-    }else{
-        app.data.todos.push(todo.value);
-        localStorage.setItem('data', JSON.stringify(list()));
+    }
+    else{
+        todos.push({
+            item: todo.value,
+            completed: false
+        });
+        app.setData({todos: todos});
         todo.value = '';
         todo.focus();
     }
-    update();
+}
+
+const completedTodo = (event) => {
+    let id = event.target.getAttribute('data-id');
+    let todos = app.getData().todos;
+    let check = event.target.checked;
+
+    if(!todos) return;
+    if(!id) return;
+
+    todos[id].completed = event.target.checked;
+    app.setData({todos: todos})
+
+    if(check){
+        event.target.classList.remove('unchecked');
+        event.target.classList.add('checked');
+        return;
+    }
+    else if(!check){
+        event.target.classList.remove('checked');
+        event.target.classList.add('unchecked');
+        return;
+    }
+}
+
+const deleted = (event) => {
+    let id = event.target.dataset.id;
+
+    if(event.target.closest('.delete')){
+        app.data.todos.splice(id, 1);
+        app.render();
+        return;
+    }
 }
 
 const click = (event) => {
-    if(event.target.closest('.delete')){
-        let delete_id = event.target.dataset.id;
-        app.data.todos.splice(delete_id, 1);
-        localStorage.setItem('data', JSON.stringify(app.data.todos));
-        app.render();
-        console.log('delete')
-        return;
-    }
-    // else if(event.target.closest('.checkbox')){
-    //     if(event.target.closest('.unchecked')){
-    //         event.target.classList.remove('unchecked');
-    //         event.target.classList.add('checked');
-    //         return;
-    //     }else if(event.target.closest('.checked')){
-    //         event.target.classList.remove('checked');
-    //         event.target.classList.add('unchecked');
-    //         return
-    //     }
-    // }
-    
-
+    completedTodo(event);
 }
+
+const saveTodos = () => localStorage.setItem('data', JSON.stringify(app.getData()));
 
 const load = () => {
-    event.preventDefault();
-    app.data.todos = JSON.parse(localStorage.getItem('data'));
+    let saved = localStorage.getItem('data');
+    // set 'data' to a blank list in the event that 'data' is blank
+    let data = saved ? JSON.parse(saved) : {
+        todos: []
+    };
+    // render app with 'data'
+    app.setData(data);
 }
-update();
+load();
 
 window.addEventListener("submit", addData, false);
 window.addEventListener("click", click, false);
-window.addEventListener('load', load, false);
+window.addEventListener("render", saveTodos, false)
