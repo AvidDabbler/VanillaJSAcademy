@@ -19,10 +19,12 @@
 			width: 100%;
 		}
 
-		input[type=checkbox] {
-			margin-right: 0.5em;
+		input[type=checkbox] + label, ul {
+			margin-right: 1em;
+			display: inline;
+			list-style-type: none;
 		}
-		.checked {
+		:checked + label{
 			text-decoration: line-through;
 			font-style: italic;
 		}

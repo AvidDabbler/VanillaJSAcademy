@@ -11,11 +11,11 @@ var app = new Reef('#app', {
         };
         
         return '<ul class="todos">' + props.todos.map((el, i) => {
-            let item = 
-                '<label for="todo-' + i + '">' + 
-                        '<input data-id="' + i + '" id="todo-' + i + '" type="checkbox" class="checkbox unchecked">' + el.item +
-                        '<button class="delete" delete-id ="' + i + '">Delete</button>'
-                    '</label>';
+            let item = '<li>' +
+                        '<input data-id="' + i + '" id="todo-' + i + '" type="checkbox">' +
+                        '<label for="todo-' + i + '">' + el.item + '</label>' + 
+                        '<button class="delete" delete-id ="' + i + '">Delete</button>' +
+                        '</li>';
             return item;
     }).join('') + `</ul>`;
   }
@@ -60,7 +60,7 @@ const addData = () => {
 const completedTodo = (event) => {
     let id = event.target.getAttribute('data-id');
     let todos = app.getData().todos;
-    let check = event.target.checked;
+    // let check = event.target.checked;
 
     if(!todos) return;
     if(!id) return;
@@ -68,16 +68,16 @@ const completedTodo = (event) => {
     todos[id].completed = event.target.checked;
     app.setData({todos: todos})
 
-    if(check){
-        event.target.classList.remove('unchecked');
-        event.target.classList.add('checked');
-        return;
-    }
-    else if(!check){
-        event.target.classList.remove('checked');
-        event.target.classList.add('unchecked');
-        return;
-    }
+    // if(check){
+    //     event.target.classList.remove('unchecked');
+    //     event.target.classList.add('checked');
+    //     return;
+    // }
+    // else if(!check){
+    //     event.target.classList.remove('checked');
+    //     event.target.classList.add('unchecked');
+    //     return;
+    // }
 }
 
 const deleted = (event) => {
