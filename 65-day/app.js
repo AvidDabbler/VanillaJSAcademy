@@ -60,24 +60,12 @@ const addData = () => {
 const completedTodo = (event) => {
     let id = event.target.getAttribute('data-id');
     let todos = app.getData().todos;
-    // let check = event.target.checked;
 
     if(!todos) return;
     if(!id) return;
 
     todos[id].completed = event.target.checked;
     app.setData({todos: todos})
-
-    // if(check){
-    //     event.target.classList.remove('unchecked');
-    //     event.target.classList.add('checked');
-    //     return;
-    // }
-    // else if(!check){
-    //     event.target.classList.remove('checked');
-    //     event.target.classList.add('unchecked');
-    //     return;
-    // }
 }
 
 const deleted = (event) => {
@@ -100,12 +88,10 @@ const saveTodos = () => localStorage.setItem('data', JSON.stringify(app.getData(
 const load = () => {
     let saved = localStorage.getItem('data');
     // set 'data' to a blank list in the event that 'data' is blank
-    let data = saved ? JSON.parse(saved) : {
-        todos: []
-    };
+    let data = saved ? JSON.parse(saved) : {todos: []};
     // render app with 'data'
     app.setData(data);
-}
+};
 load();
 
 window.addEventListener("submit", addData, false);
