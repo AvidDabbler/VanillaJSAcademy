@@ -12,7 +12,7 @@ var app = new Reef('#app', {
         
         return '<ul class="todos">' + props.todos.map((el, i) => {
             let item = '<li>' +
-                        '<input data-id="' + i + '" id="todo-' + i + '" type="checkbox">' +
+                        '<input data-id="' + i + '" id="todo-' + i + '" type="checkbox"' + (el.completed ? ' checked' : '') + '>' +
                         '<label for="todo-' + i + '">' + el.item + '</label>' + 
                         '<button class="delete" delete-id ="' + i + '">Delete</button>' +
                         '</li>';
